@@ -71,7 +71,7 @@ app.post("/api/shorturl/new", (req, res) => {
     dns.lookup(cleanUrl, (err, add, fam) => {
       if (err === null) {
         createNewUrl(url);
-        res.json({ url: url, shot_url: genHash(url) });
+        res.json({ original_url: url, shot_url: genHash(url) });
       } else {
         res.json({ error: "invalid url" });
       }
