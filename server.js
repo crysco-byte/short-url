@@ -71,13 +71,13 @@ app.post("/api/shorturl/new", (req, res) => {
     dns.lookup(cleanUrl, (err, add, fam) => {
       if (err === null) {
         createNewUrl(url);
-        res.json({ url: url, hash: genHash(url) });
+        res.json({ url: url, shot_url: genHash(url) });
       } else {
-        res.json({ url: "Invalid Hostname" });
+        res.json({ error: "invalid url" });
       }
     });
   } else {
-    res.json({ url: "Invalid Hostname" });
+    res.json({ error: "invalid url" });
   }
 });
 
