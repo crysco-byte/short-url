@@ -67,7 +67,12 @@ app.post("/api/shorturl/new", (req, res) => {
   const { url } = req.body;
   const urlRegex = /^(http*.:\/\/)+/;
   if (urlRegex.test(url)) {
-    const cleanUrl = url.replace(urlRegex, "");
+    let cleanUrl = url.replace(urlRegex, "");
+    cleanUrl.endsWith("/") ? cleanUrl.replace("/", "") : null;
+    cleanUrl = cleanUrl.endsWith("/")
+      ? cleanUrl.replace(/(\/)$/, "")
+      : cleanUrl;
+    console.log(cleanUrl);
     dns.lookup(cleanUrl, (err, add, fam) => {
       if (err === null) {
         createNewUrl(url);
