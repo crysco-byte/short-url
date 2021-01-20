@@ -68,18 +68,14 @@ app.post("/api/shorturl/new", (req, res) => {
   const urlRegex = /^(http*.:\/\/)+/;
   if (urlRegex.test(url)) {
     let cleanUrl = url.replace(urlRegex, "");
-    cleanUrl.endsWith("/") ? cleanUrl.replace("/", "") : null;
     cleanUrl = cleanUrl.endsWith("/")
       ? cleanUrl.replace(/(\/)$/, "")
       : cleanUrl;
     console.log(cleanUrl);
-    dns.lookup(cleanUrl, (err, add, fam) => {
-      if (err === null) {
-        createNewUrl(url);
-        res.json({ original_url: url, short_url: genHash(url) });
-      } else {
-        res.json({ error: "invalid url" });
-      }
+    createNewUrl(url);
+    res.json({
+      original_url: url.endsWith("/") ? url.replace(/(\/)$/, "") : url,
+      short_url: genHash(url),
     });
   } else {
     res.json({ error: "invalid url" });
